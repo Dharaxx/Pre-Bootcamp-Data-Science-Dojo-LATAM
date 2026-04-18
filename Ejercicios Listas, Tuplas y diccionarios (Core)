@@ -1,0 +1,57 @@
+#Carga de Datos:Crea una lista de diccionarios llamada ventas, donde cada diccionario represente una venta. Cada venta debe incluir las siguientes claves:«fecha»: una cadena de texto que represente la fecha de la venta (por ejemplo, «2024-01-01»). , «producto»: una cadena de texto que represente el nombre del producto vendido., «cantidad»: un número entero que represente la cantidad de productos vendidos. «precio»: un número flotante que represente el precio unitario del producto.
+ventas = [
+    {"fecha": "2024-01-01", "producto": "Producto A", "cantidad": 10, "precio": 15.0},
+    {"fecha": "2024-01-01", "producto": "Producto B", "cantidad": 5, "precio": 20.0},
+    {"fecha": "2024-01-02", "producto": "Producto A", "cantidad": 8, "precio": 15.0},
+    {"fecha": "2024-01-02", "producto": "Producto C", "cantidad": 12, "precio": 10.0},
+    {"fecha": "2024-01-03", "producto": "Producto B", "cantidad": 7, "precio": 20.0},
+    {"fecha": "2024-01-03", "producto": "Producto C", "cantidad": 10, "precio": 10.0}]
+print(ventas)
+#Cálculo de Ingresos Totales:Utiliza un bucle para iterar sobre la lista ventas y calcular los ingresos totales generados por todas las ventas. Los ingresos totales se calculan multiplicando la cantidad vendida por el precio unitario para cada venta y sumando los resultados.
+for venta in ventas:
+    ingresos_totales = sum(venta["cantidad"] * venta["precio"] for venta in ventas)
+print(f"Ingresos totales generados por todas las ventas: {ingresos_totales}")
+#Análisis del Producto Más Vendido:Crea un diccionario llamado ventas_por_producto donde las claves sean los nombres de los productos y los valores sean la cantidad total vendida de cada producto. Utiliza este diccionario para identificar el producto que tuvo la mayor cantidad total vendida.
+ventas_por_producto = {}
+for venta in ventas:
+    producto = venta["producto"]
+    cantidad = venta["cantidad"]
+    if producto in ventas_por_producto:
+        ventas_por_producto[producto] += cantidad
+    else:
+        ventas_por_producto[producto] = cantidad
+producto_mas_vendido = max(ventas_por_producto, key=ventas_por_producto.get)
+print(f"El producto más vendido es: {producto_mas_vendido} con {ventas_por_producto[producto_mas_vendido]} unidades")
+#Promedio de Precio por Producto: Crea un diccionario llamado precios_por_producto donde las claves sean los nombres de los productos y los valores sean tuplas. Cada tupla debe contener dos elementos: la suma de los precios de venta de todas las unidades vendidas y la cantidad total de unidades vendidas.
+precios_por_producto = {}
+for venta in ventas:
+    producto = venta["producto"]
+    precio = venta["precio"]
+    cantidad = venta["cantidad"]
+    if producto in precios_por_producto:
+        suma_precios, total_cantidad = precios_por_producto[producto]
+        precios_por_producto[producto] = (suma_precios + (precio * cantidad), total_cantidad + cantidad)
+    else:
+        precios_por_producto[producto] = (precio * cantidad, cantidad)
+print(precios_por_producto)
+#Calcula el precio promedio de venta para cada producto utilizando la información de este diccionario. 
+precios_promedio_por_producto = {}
+for producto, (suma_precios, total_cantidad) in precios_por_producto.items():
+    precios_promedio_por_producto[producto] = suma_precios / total_cantidad
+print(precios_promedio_por_producto)
+#Ventas por Día: Crea un diccionario llamado ingresos_por_dia donde las claves sean las fechas y los valores sean los ingresos totales generados en cada día. Utiliza un bucle para calcular los ingresos totales por día y almacenar estos valores en el diccionario. Representación de Datos:Crea un diccionario llamado resumen_ventas donde las claves sean los nombres de los productos y los valores sean diccionarios anidados. Cada diccionario anidado debe contener:«cantidad_total»: la cantidad total vendida del producto.,«ingresos_totales»: los ingresos totales generados por la venta del producto.,«precio_promedio»: el precio promedio de venta del producto.
+resumen_ventas = {}
+for venta in ventas:
+    producto = venta["producto"]
+    cantidad = venta["cantidad"]
+    precio = venta["precio"]
+    ingresos = cantidad * precio
+    if producto in resumen_ventas:
+        resumen_ventas[producto]["cantidad_total"] += cantidad
+        resumen_ventas[producto]["ingresos_totales"] += ingresos
+    else:
+        resumen_ventas[producto] = {
+            "cantidad_total": cantidad,
+            "ingresos_totales": ingresos,
+            "precio_promedio": precio}
+print(resumen_ventas)
